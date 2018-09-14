@@ -1,0 +1,11 @@
+message("COMPILING UTILS")
+ADD_LIBRARY(utils STATIC)
+TARGET_LINK_LIBRARIES(utils PRIVATE g3logger)
+TARGET_INCLUDE_DIRECTORIES(utils PRIVATE src PUBLIC include)
+TARGET_COMPILE_FEATURES(utils PUBLIC cxx_std_14)
+TARGET_SOURCES(utils PRIVATE src/ConsumerThread.cpp)
+TARGET_SOURCES(utils PRIVATE src/SoutSink.cpp)
+
+compile_options(utils)
+
+message("END COMPILING UTILS")
