@@ -5,6 +5,8 @@ TARGET_LINK_LIBRARIES(runTest PRIVATE gtest gtest_main utils g3logger)
 TARGET_INCLUDE_DIRECTORIES(runTest PUBLIC include PRIVATE src)
 TARGET_COMPILE_FEATURES(runTest PUBLIC cxx_std_14)
 
+add_subdirectory(core)
+
 compile_options(runTest)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND NOT CULT_TSAN)
