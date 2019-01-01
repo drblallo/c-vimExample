@@ -30,12 +30,12 @@ add_subdirectory(googletest)
 add_subdirectory(core)
 add_subdirectory(test)
 
-message("COMPILING CULT")
+message("COMPILING MAIN")
 ADD_EXECUTABLE(main main.cpp)
 TARGET_LINK_LIBRARIES(main PRIVATE g3logger utils pthread) 
 TARGET_COMPILE_FEATURES(main PUBLIC cxx_std_14)
 
 compile_options(main)
 
-message("END COMPILING CULT")
+message("END COMPILING MAIN")
 

@@ -56,7 +56,7 @@ function! s:RunTest(param, executible, args)
 	call AppendRunOnNamedInternal(":w", "run")
 	call AppendOpenErrorFileIfExist()
 	call AppendInternal("call AsanParseBuffer()")
-	call AppendRunOnNamedInternal(":w", "run")
+	silent call AppendRunOnNamedInternal(":w", "run")
 endfunction
 
 function! s:silentBuild(target)
@@ -78,7 +78,7 @@ function! s:Run(param, executible, args)
 	call AppendRunOnNamedInternal("call ColorizeLog()", "run")
 	call AppendOpenErrorFileIfExist()
 	call AppendInternal("call AsanParseBuffer()")
-	call AppendRunOnNamedInternal(":w", "run")
+	silent call AppendRunOnNamedInternal(":w", "run")
 endfunction
 
 function! s:RunD(target, executible, args)
@@ -110,7 +110,7 @@ function! s:generateCompilationDatabase()
 endfunction
 
 function! s:goToTest(name)
-	execute "vimgrep " . a:name . " test/src/*"	. " ../test/src/*"
+	execute "vimgrep " . a:name . " ../test/**/*.cpp"	. " test/**/*.cpp"
 endfunction
 
 command! -nargs=0 CMDEBUG call s:setType(0, "cmake-build-debug-clang", g:CCLANG, g:CPPCLANG, "Debug", "", g:NINJA)
@@ -175,9 +175,9 @@ function! s:addClass(folder, newClassName)
 	normal icls
 endfunction
 
-function! s:addTest(testName)
-	execute "!echo TARGET_SOURCES\\(runTest PRIVATE src/".a:testName."\\) >> test/CMakeLists.txt"
-	execute "vsp ./test/src/".a:testName.".cpp"
+function! s:addTest(folder, testName)
+	execute "!echo TARGET_SOURCES\\(runTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/".a:testName."\\) >> test/core/".a:folder."/CMakeLists.txt"
+	execute "vsp ./test/core/".a:folder."/src/".a:testName.".cpp"
 	normal itest
 
 endfunction
