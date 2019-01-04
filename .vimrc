@@ -192,3 +192,12 @@ function! ParseClangOutput()
 	syntax match clangOutNote '\s\+warning:\s\+'
 	syntax match clangOutFile '\S\+:\d\+:\d\+:'
 endfunction
+
+command! -nargs=1 Rename call s:clangRename(<f-args>)
+
+function! s:clangRename(newName)
+	let s:offset = line2byte(line(".")) + col(".") - 2
+	let command = "clang-rename -offset=" . s:offset . " -i -new-name=" . a:newName . " " . expand('%:t')
+	call AppendExternal(command)
+	call AppendRunOnSuccessInternal("checktime")
+endfunction
