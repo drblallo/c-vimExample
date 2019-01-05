@@ -33,16 +33,12 @@ function! s:getBuildCommand()
 	return s:command
 endfunction
 
-function! s:Rebuild(waitForEnd)
-	let s:command = s:getBuildCommand()
-	let s:partial = "rm -r ./" . g:BUILD_DIRECTORY . " ; mkdir ./" . g:BUILD_DIRECTORY . " && cd " . g:BUILD_DIRECTORY . " && " . s:command
-	silent execute "!echo \"" . s:partial . "\" > .file.txt"
-	call AppendRunAndOpenOnFailure( "./.file.txt")
-
-	if a:waitForEnd == 1
-		exe "!echo rebuilded"  
-	endif
-	
+function! s:Rebuild()
+	call AppendExternal("rm -r ./" . g:BUILD_DIRECTORY)
+	call AppendExternal("mkdir ./" . g:BUILD_DIRECTORY)
+	call AppendInternal(":lcd " . g:BUILD_DIRECTORY)
+	call AppendRunAndOpenOnFailure(s:getBuildCommand())
+	call AppendInternal(":lcd ../")
 endfunction
 
 function! s:RunTest(param, executible, args)
@@ -94,12 +90,11 @@ endfunction
 
 function! s:coverage(val, cmakeBuildBir, cCompiler, cppCompiler, buildType, extra, generator)
 	silent call s:setType(a:val, a:cmakeBuildBir, a:cCompiler, a:cppCompiler, a:buildType, a:extra, a:generator)
-	silent call s:Rebuild(0)
+	"silent call s:Rebuild()
 	silent let s:build = g:CMAKE . " --build " . g:BUILD_DIRECTORY . " --target runTest -- -j 4"
 	silent call AppendRunOnSuccessExternal(s:build)
 	call AppendOpenOnFailure()
 	silent call AppendRunOnSuccessExternal("bash coverage.sh")
-	!echo "creating coverage"
 endfunction
 
 function! s:generateCompilationDatabase()
@@ -115,14 +110,14 @@ endfunction
 
 command! -nargs=0 CMDEBUG call s:setType(0, "cmake-build-debug-clang", g:CCLANG, g:CPPCLANG, "Debug", "", g:NINJA)
 command! -nargs=0 CMRELEASE call s:setType(1, "cmake-build-release-clang", g:CCLANG, g:CPPCLANG, "Release", "", g:NINJA)
-command! -nargs=0 CMASAN call s:setType(2, "cmake-build-asan", g:CCLANG, g:CPPCLANG, "Debug", "-DCULT_ASAN=ON ", g:NINJA)
-command! -nargs=0 CMTSAN call s:setType(3, "cmake-build-tsan", g:CCLANG, g:CPPCLANG, "Debug", "-DCULT_TSAN=ON ", g:NINJA)
-command! -nargs=0 CMUBSAN call s:setType(4, "cmake-build-ubsan", g:CCLANG, g:CPPCLANG, "Debug", "-DCULT_UBSAN=ON ", g:NINJA)
-command! -nargs=0 CMMSAN call s:setType(5, "cmake-build-msan", g:CCLANG, g:CPPCLANG, "Debug", "-DCULT_MSAN=ON -fsanitize-blacklist=" . g:MSAN_BLACK_LIST, g:NINJA)
+command! -nargs=0 CMASAN call s:setType(2, "cmake-build-asan", g:CCLANG, g:CPPCLANG, "Debug", "-DPROJ_ASAN=ON ", g:NINJA)
+command! -nargs=0 CMTSAN call s:setType(3, "cmake-build-tsan", g:CCLANG, g:CPPCLANG, "Debug", "-DPROJ_TSAN=ON ", g:NINJA)
+command! -nargs=0 CMUBSAN call s:setType(4, "cmake-build-ubsan", g:CCLANG, g:CPPCLANG, "Debug", "-DPROJ_UBSAN=ON ", g:NINJA)
+command! -nargs=0 CMMSAN call s:setType(5, "cmake-build-msan", g:CCLANG, g:CPPCLANG, "Debug", "-DPROJ_MSAN=ON -fsanitize-blacklist=" . g:MSAN_BLACK_LIST, g:NINJA)
 command! -nargs=0 CMWINDOWS call s:setType(6, "cmake-build-release-windows", "/usr/bin/x86_64-w64-mingw32-gcc-posix", "/usr/bin/x86_64-w64-mingw32-c++-posix", "Release", g:MING_EXTRA, g:NINJA)
-command! -nargs=0 COVERAGE call s:coverage(7, "cmake-build-coverage", g:GCC, g:GPP, "Debug", "-DCULT_COVERAGE=ON", g:NINJA)
+command! -nargs=0 COVERAGE call s:coverage(7, "cmake-build-coverage", g:GCC, g:GPP, "Debug", "-DPROJ_COVERAGE=ON", g:NINJA)
 
-command! -nargs=0 REBUILD call s:Rebuild(1)
+command! -nargs=0 REBUILD call s:Rebuild()
 command! -nargs=0 TALL call s:RunTest("runTest", "test/runTest", "")
 command! -nargs=0 TSUIT call s:RunTest("runTest", "test/runTest", GTestOption(1))
 command! -nargs=0 TONE call s:RunTest("runTest", "test/runTest", GTestOption(0))

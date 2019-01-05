@@ -1,1 +1,0 @@
-rm -r ./cmake-build-ubsan ; mkdir ./cmake-build-ubsan && cd cmake-build-ubsan && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -G Ninja -DCULT_UBSAN=ON  --build ../

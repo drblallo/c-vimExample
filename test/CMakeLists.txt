@@ -3,7 +3,7 @@ ADD_EXECUTABLE(runTest src/DefaultTest.cpp)
 
 TARGET_LINK_LIBRARIES(runTest PRIVATE gtest gtest_main utils g3logger)
 TARGET_INCLUDE_DIRECTORIES(runTest PUBLIC include PRIVATE src)
-TARGET_COMPILE_FEATURES(runTest PUBLIC cxx_std_14)
+TARGET_COMPILE_FEATURES(runTest PUBLIC cxx_std_17)
 
 add_subdirectory(core)
 

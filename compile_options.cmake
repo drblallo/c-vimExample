@@ -20,7 +20,7 @@ MACRO(compile_options target)
     endif()
 
     if (CMAKE_BUILD_TYPE STREQUAL "Release")
-        message("--compiling for release")
+        message("--building for release")
         TARGET_COMPILE_OPTIONS(${target} PRIVATE -O3)
     endif()
 
