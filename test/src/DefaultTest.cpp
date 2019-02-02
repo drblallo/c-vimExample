@@ -6,8 +6,8 @@
 class DefaultTest: public testing::Test
 {
 	public:
-	virtual void SetUp() { utils::initLogger(false); }
-	virtual void TearDown() {}
+	void SetUp() final { utils::initLogger(false); }
+	void TearDown() final {}
 };
 
 TEST_F(DefaultTest, simpleTest)

@@ -5,6 +5,7 @@
 *.swp
 .gdb_history
 compile_commands.json
+tags
 
 # User-specific stuff
 .idea/**/workspace.xml

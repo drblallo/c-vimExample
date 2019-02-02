@@ -21,7 +21,7 @@ namespace utils
 	std::unique_ptr<g3::LogWorker> logWorker;
 	void initLogger(bool enbled)
 	{
-		if (logWorker.get())
+		if (logWorker)
 			return;
 
 		if (!enbled)
@@ -30,7 +30,7 @@ namespace utils
 			return;
 		}
 
-		logWorker		= g3::LogWorker::createLogWorker();
+		logWorker = g3::LogWorker::createLogWorker();
 		auto handle = logWorker->addSink(
 				std::make_unique<ActualSink>(), &ActualSink::ReceiveLogMessage);
 		g3::initializeLogging(logWorker.get());

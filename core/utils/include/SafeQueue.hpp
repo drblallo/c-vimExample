@@ -18,20 +18,17 @@ namespace utils
 		std::mutex mutex;
 
 		public:
-		SafeQueue(): queue(), mutex() {}
+		SafeQueue(): queue() {}
 
 		/***
 		 *  Copy constructor is not thread safe
 		 */
-		SafeQueue(const SafeQueue &other): queue(), mutex() { queue = other.queue; }
+		SafeQueue(const SafeQueue &other): queue() { queue = other.queue; }
 
 		/***
 		 * Move constructor is not thread safe
 		 */
-		SafeQueue(SafeQueue &&other) noexcept
-				: queue(std::move(other.queue)), mutex()
-		{
-		}
+		SafeQueue(SafeQueue &&other) noexcept: queue(std::move(other.queue)) {}
 
 		SafeQueue &operator=(const SafeQueue &other)
 		{

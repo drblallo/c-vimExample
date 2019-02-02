@@ -48,7 +48,7 @@ MACRO(debug_compile_options target)
         if (PROJ_MSAN)
             message("--compiling with memory sanitizer")
             if (CLANG)
-                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory")
+                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory -fno-omit-frame-pointer -fno-optimize-sibling-calls")
             elseif(GNU)
                 message("--compiling with msan")
                 TARGET_COMPILE_OPTIONS(${target} PRIVATE -O1 -fsanitize=memory

@@ -74,11 +74,13 @@ function! s:Run(param, executible, args)
 	call AQAppendCond("call ParseClangOutput()", 0, l:r[0])
 
 	call AQAppendOpen(-1, l:r[1])
+	call AQAppendCond("call ColorizeLog()")
+	call AQAppendCond("setlocal nomodified")
+
 	call AQAppendOpenError(0, l:r[1])
 	call AQAppendCond("call AsanParseBuffer()", 0, l:r[1])
-	call AQAppendCond("call ColorizeLog()", 0, l:r[1])
 
-	call AQAppend("setlocal nomodified")
+	call AQAppendCond("setlocal nomodified")
 endfunction
 
 function! s:RunD(target, executible, args)
