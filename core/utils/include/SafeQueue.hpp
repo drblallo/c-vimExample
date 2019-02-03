@@ -36,6 +36,13 @@ namespace utils
 			return *this;
 		}
 
+		/***
+		 * Move asigment operator is not thread safe
+		 */
+		SafeQueue &operator=(SafeQueue &&other) { queue = std::move(other.queue); }
+
+		~SafeQueue() = default;
+
 		bool empty()
 		{
 			std::lock_guard<std::mutex> g(mutex);

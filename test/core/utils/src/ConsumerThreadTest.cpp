@@ -14,7 +14,7 @@ using namespace utils;
 class ConsumerThreadTest: public testing::Test
 {
 	public:
-	ConsumerThreadTest(): thread(), markCalled(false) {}
+	ConsumerThreadTest(): markCalled(false) {}
 	ConsumerThread thread;
 	std::atomic<bool> markCalled;
 

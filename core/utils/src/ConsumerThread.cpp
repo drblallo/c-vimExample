@@ -6,10 +6,10 @@
 
 #include <g3log/g3log.hpp>
 #include <utility>
-#define THREAD_WAITING_TIME 10
 
 namespace utils
 {
+	constexpr std::chrono::nanoseconds waitingTime(10);
 	ConsumerThread::ConsumerThread(): running(false), terminate(false) {}
 
 	ConsumerThread::~ConsumerThread()
@@ -75,8 +75,7 @@ namespace utils
 		stop();
 
 		while (running.load())
-			std::this_thread::sleep_for(
-					std::chrono::nanoseconds(THREAD_WAITING_TIME));
+			std::this_thread::sleep_for(waitingTime);
 	}
 
 	void ConsumerThread::run(
@@ -90,8 +89,7 @@ namespace utils
 		while (!terminate.load())
 		{
 			processAll();
-			std::this_thread::sleep_for(
-					std::chrono::nanoseconds(THREAD_WAITING_TIME));
+			std::this_thread::sleep_for(waitingTime);
 		}
 
 		if (onStop)

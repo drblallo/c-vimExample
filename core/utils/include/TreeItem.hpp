@@ -10,6 +10,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <vector>
 
 namespace utils
 {
@@ -21,7 +22,10 @@ namespace utils
 		explicit TreeItem(T&& newData)
 				: parent(), children(), data(std::move(newData)){};
 		TreeItem& operator=(const TreeItem<T>& other) = delete;
-		TreeItem(const TreeItem<T>& other)						= delete;
+		TreeItem& operator=(TreeItem<T>&& other) = delete;
+		TreeItem(const TreeItem<T>& other) = delete;
+		TreeItem(TreeItem<T>&& other) = delete;
+		~TreeItem() = default;
 
 		TreeItem<T>* getParent() const { return parent; }
 		TreeItem<T>* getRoot()
@@ -108,7 +112,7 @@ namespace utils
 			assert(child->parent == nullptr);
 
 			TreeItem<T>* ptr(child.get());
-			child->parent					= this;
+			child->parent = this;
 			children[child.get()] = std::move(child);
 			return *ptr;
 		}
@@ -142,7 +146,6 @@ namespace utils
 				: root(std::make_unique<TreeItem<T>>(std::move(rootData)))
 		{
 		}
-		Tree(Tree<T>&& other): root(std::move(other.root)) {}
 
 		TreeItem<T>& getRoot() { return *root; }
 		const TreeItem<T>& getRoot() const { return *root; }

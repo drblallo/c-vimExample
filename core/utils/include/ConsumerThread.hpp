@@ -24,6 +24,7 @@ namespace utils
 		ConsumerThread(const ConsumerThread &other) = delete;
 		ConsumerThread(ConsumerThread &&other) = delete;
 		ConsumerThread &operator=(const ConsumerThread &other) = delete;
+		ConsumerThread &operator=(ConsumerThread &&other) = delete;
 
 		// spawn a new thread that will consume every operation inserted with run
 		// later. cannot be called if running == true sets running to ture

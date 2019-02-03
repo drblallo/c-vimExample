@@ -9,8 +9,8 @@
 
 void waitUntil(
 		std::function<bool()> fun,
-		bool expected											 = true,
-		int maxTries											 = 100,
+		bool expected = true,
+		int maxTries = 100,
 		std::chrono::milliseconds waitTime = std::chrono::milliseconds(10));
 
 #endif	// CULT_TESTUTILS_HPP
