@@ -6,7 +6,6 @@
 #include <gtest/gtest.h>
 #include <thread>
 
-#include "SoutSink.hpp"
 #include "TestUtils.hpp"
 
 using namespace utils;
@@ -18,7 +17,7 @@ class ConsumerThreadTest: public testing::Test
 	ConsumerThread thread;
 	std::atomic<bool> markCalled;
 
-	virtual void SetUp() { utils::initLogger(false); }
+	virtual void SetUp() {}
 	void mark()
 	{
 		thread.runLater([this]() { markCalled.store(true); });

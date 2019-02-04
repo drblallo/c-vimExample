@@ -1,10 +1,7 @@
-#include <g3log/g3log.hpp>
-
-#include "SoutSink.hpp"
+#include <iostream>
 
 int main()
 {
-	utils::initLogger(true);
-	LOG(DEBUG) << "Starting program\n";
-	LOG(DEBUG) << "Ending program" << std::endl;
+	std::cout << "Starting program\n";
+	std::cout << "Ending program" << std::endl;
 }

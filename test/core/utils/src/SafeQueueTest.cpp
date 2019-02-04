@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 
 #include "SafeQueue.hpp"
-#include "SoutSink.hpp"
+
 #define SIZE 5
 
 template class utils::SafeQueue<int>;
@@ -13,7 +13,7 @@ class SafeQueueTest: public testing::Test
 {
 	public:
 	utils::SafeQueue<int> queue;
-	virtual void SetUp() { utils::initLogger(false); }
+	virtual void SetUp() {}
 	virtual void TearDown() {}
 };
 

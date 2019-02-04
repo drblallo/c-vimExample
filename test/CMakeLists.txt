@@ -1,7 +1,7 @@
 message("COMPILING TESTS")
 ADD_EXECUTABLE(runTest src/DefaultTest.cpp)
 
-TARGET_LINK_LIBRARIES(runTest PRIVATE gtest gtest_main utils g3logger)
+TARGET_LINK_LIBRARIES(runTest PRIVATE gtest gtest_main utils)
 TARGET_INCLUDE_DIRECTORIES(runTest PUBLIC include PRIVATE src)
 TARGET_COMPILE_FEATURES(runTest PUBLIC cxx_std_17)
 

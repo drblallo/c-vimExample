@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include <functional>
 
-#include "SoutSink.hpp"
 #include "TreeItem.hpp"
 
 using namespace utils;
@@ -31,7 +30,7 @@ class TreeTest: public testing::Test
 	public:
 	TreeTest(): tree(4) {}
 	Tree<int> tree;
-	virtual void SetUp() { utils::initLogger(false); }
+	virtual void SetUp() {}
 	virtual void TearDown() { EXPECT_TRUE(isTreeWellMade<int>(&tree.getRoot())); }
 };
 

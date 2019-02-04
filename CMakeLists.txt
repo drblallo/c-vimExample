@@ -35,14 +35,13 @@ include(compile_options.cmake)
 
 project(example)
 
-add_subdirectory(g3log)
 add_subdirectory(googletest)
 add_subdirectory(core)
 add_subdirectory(test)
 
 message("COMPILING MAIN")
 ADD_EXECUTABLE(main main.cpp)
-TARGET_LINK_LIBRARIES(main PRIVATE g3logger utils pthread) 
+TARGET_LINK_LIBRARIES(main PRIVATE utils pthread) 
 TARGET_COMPILE_FEATURES(main PUBLIC cxx_std_17)
 
 compile_options(main)

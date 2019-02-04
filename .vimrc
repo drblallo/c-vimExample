@@ -50,7 +50,6 @@ function! s:RunTest(param, executible, args)
 	call AQAppendOpen(-1, l:t[1])
 	call AQAppendCond("call RunOnBuffer()", -1, l:t[1])
 	call AQAppendCond("call ApplyTestSyntax()", -1, l:t[1])
-	call AQAppendCond("call ColorizeLog()", -1, l:t[1])
 
 	call AQAppend(":lcd ".g:BUILD_DIRECTORY)
 
@@ -74,7 +73,6 @@ function! s:Run(param, executible, args)
 	call AQAppendCond("call ParseClangOutput()", 0, l:r[0])
 
 	call AQAppendOpen(-1, l:r[1])
-	call AQAppendCond("call ColorizeLog()")
 	call AQAppendCond("setlocal nomodified")
 
 	call AQAppendOpenError(0, l:r[1])
@@ -152,29 +150,6 @@ nnoremap <leader><leader>cd :CHANGEDIR<cr>
 
 let $ASAN_OPTIONS="suppressions=".g:ASAN_SUPP
 let $LSAN_OPTIONS="suppressions=".g:LSAN_SUPP
-
-exe "hi log ctermfg=" .  g:ColorString
-exe "hi logFile ctermfg=" . g:ColorType
-exe "hi atMethod ctermfg=" . g:ColorStatement
-exe "hi logWarning ctermfg=" . g:ColorNumber
-
-function! ColorizeLog()
-	syntax match log '\s*\(DEBUG\|INFO\|WARNING\): .*\s*'
-	syntax match logWarning '\s*WARNING: .*\s*'
-	syntax match atMethod '>.*at'
-	syntax match logFile ':\s\+\S\+\s*'
-endfunction
-
-exe "hi clangOutError ctermfg="g:ColorStatement
-exe "hi clangOutNote ctermfg="g:ColorNumber
-exe "hi clangOutFile ctermfg="g:ColorType
-exe "hi clangOutFile ctermfg="g:ColorString
-function! ParseClangOutput()
-	syntax match clangOutError '\s\+error:\s\+'
-	syntax match clangOutNote '\s\+note:\s\+'
-	syntax match clangOutNote '\s\+warning:\s\+'
-	syntax match clangOutFile '\S\+:\d\+:\d\+:'
-endfunction
 
 command! -nargs=1 Rename call s:clangRename(<f-args>)
 

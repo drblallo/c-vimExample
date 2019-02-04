@@ -4,7 +4,6 @@
 
 #include "ConsumerThread.hpp"
 
-#include <g3log/g3log.hpp>
 #include <utility>
 
 namespace utils
@@ -15,11 +14,7 @@ namespace utils
 	ConsumerThread::~ConsumerThread()
 	{
 		if (std::this_thread::get_id() == workerThreadID.load())
-		{
-			LOG(FATAL) << "A thread cannot be able to destroy his own object"
-								 << std::endl;
 			exit(EXIT_FAILURE);
-		}
 
 		blockingStop();
 	}
@@ -29,10 +24,8 @@ namespace utils
 	{
 		bool expected(false);
 		if (!running.compare_exchange_weak(expected, true))
-		{
-			LOG(WARNING) << "Thread was already started" << std::endl;
 			return;
-		}
+
 		while (!actionQueue.empty())
 			actionQueue.poll();
 
@@ -48,10 +41,8 @@ namespace utils
 	{
 		bool expected(false);
 		if (!running.compare_exchange_weak(expected, true))
-		{
-			LOG(WARNING) << "Thread was already started" << std::endl;
 			return;
-		}
+
 		while (!actionQueue.empty())
 			actionQueue.poll();
 
@@ -66,11 +57,7 @@ namespace utils
 	void ConsumerThread::blockingStop()
 	{
 		if (std::this_thread::get_id() == workerThreadID.load())
-		{
-			LOG(WARNING) << "Calls inside this thread cannot be blocking"
-									 << std::endl;
 			return;
-		}
 
 		stop();
 
